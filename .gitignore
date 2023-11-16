@@ -1,0 +1,5 @@
+__pycache__
+/venv
+horoscope_bot.log
+translator.py
+horoscope_eng.py
