@@ -100,9 +100,11 @@ ZODIAC_SIGNS = {
 
 def get_keyboard_sign():    
     builder = InlineKeyboardBuilder()
+    with open('leo.png', 'rb') as file:
+        icon_leo = file.read()
     for key, value in ZODIAC_SIGNS.items():    
         builder.button(
-            text=value, callback_data=SignCallbackFactory(value=key)
+            text=value, callback_data=SignCallbackFactory(value=key), icon=icon_leo
         )
     
     builder.adjust(3)
