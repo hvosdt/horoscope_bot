@@ -38,7 +38,7 @@ my_id = '182149382'
 client.conf.beat_schedule = {
     'send_daily_horoscope': {
         'task': 'handlers.send_daily_horoscope',
-        'schedule': crontab(hour=9, minute=0)
+        'schedule': crontab(hour=13, minute=30)
     },
     'send_weekly_horoscope': {
         'task': 'handlers.send_weekly_horoscope',
@@ -165,7 +165,7 @@ async def start(message: types.message):
 def send_daily_horoscope():
     for i in users.find():
         horoscope = Horoscope(i['sign'])
-        send_msg(i['user_id'], 'Ваш гороскоп на следующую сегодня')
+        send_msg(i['user_id'], 'Ваш гороскоп на сегодня')
         send_msg(i['user_id'], horoscope.get('today'))
 
 @client.task()
@@ -176,5 +176,4 @@ def send_weekly_horoscope():
         send_msg(i['user_id'], horoscope.get('week'))
         
 if __name__ == '__main__':
-    
     pass
