@@ -38,7 +38,7 @@ my_id = '182149382'
 client.conf.beat_schedule = {
     'send_daily_horoscope': {
         'task': 'handlers.send_daily_horoscope',
-        'schedule': crontab(hour=13, minute=30)
+        'schedule': crontab(hour=12, minute=40)
     },
     'send_weekly_horoscope': {
         'task': 'handlers.send_weekly_horoscope',
