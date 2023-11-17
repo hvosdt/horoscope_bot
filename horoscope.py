@@ -39,13 +39,13 @@ class Horoscope():
 
     def get(self, period):
         url = f'https://horo.mail.ru/prediction/{self.sign}/{period}/'
-        print(url)
+        
         horoscope = parse_horoscope_page(url)
         return horoscope
     
     def get_tooday(self):
         url = f'https://horo.mail.ru/prediction/{self.sign}/today/'
-        print(url)
+        
         horoscope = parse_horoscope_page(url)
         return horoscope
     
