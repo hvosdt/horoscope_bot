@@ -85,17 +85,17 @@ class PeriodCallbackFactory(CallbackData, prefix="period"):
     
 ZODIAC_SIGNS = {
     "aries": '♈ Овен',
-    "taurus": 'Телец',
-    "gemini": 'Близнецы',
-    "cancer": 'Рак',
-    "leo": 'Лев',
-    "virgo": 'Дева',
-    "libra": 'Весы',
-    "scorpio": 'Скорпион',
-    "sagittarius": 'Стрелец',
-    "capricorn": 'Козерог',
-    "aquarius": 'Водолей',
-    "pisces": 'Рыбы'
+    "taurus": '♉ Телец',
+    "gemini": '♊ Близнецы',
+    "cancer": '♋ Рак',
+    "leo": '♌ Лев',
+    "virgo": '♍ Дева',
+    "libra": '♎ Весы',
+    "scorpio": '♏ Скорпион',
+    "sagittarius": '♐ Стрелец',
+    "capricorn": '♑ Козерог',
+    "aquarius": '♒ Водолей',
+    "pisces": '♓ Рыбы'
 } 
 
 def get_keyboard_sign():    
