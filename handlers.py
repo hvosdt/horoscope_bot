@@ -39,8 +39,11 @@ client.conf.beat_schedule = {
     'send_daily_horoscope': {
         'task': 'handlers.send_daily_horoscope',
         'schedule': crontab(hour=13, minute=30)
-    }
-    
+    },
+    'send_weekly_horoscope': {
+        'task': 'handlers.send_weekly_horoscope',
+        'schedule': crontab(day_of_week='sunday', hour=10, minute=0)
+    },
 }
 
 bot = Bot(token=config.TELEGRAM_TOKEN)
