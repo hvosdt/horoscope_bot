@@ -21,6 +21,8 @@ client = MongoClient('localhost', 27017)
 
 db = client.horoscope_db
 users = db.users
+compatibility = db.compatibility
+
 try:
     client.admin.command('ping')
     print("Pinged your deployment. You successfully connected to MongoDB!")
@@ -82,6 +84,10 @@ class PeriodCallbackFactory(CallbackData, prefix="period"):
     #action: str
     value: Optional[str] = None
 
+class CompatibilityCallbackFactory(CallbackData, prefix="compatibility"):
+    #action: str
+    value: Optional[str] = None
+    payload: Optional[str] = None
     
 ZODIAC_SIGNS = {
     "aries": '♈ Овен',
@@ -126,6 +132,17 @@ def get_keyboard_period():
     builder.adjust(3)
     return builder.as_markup()
 
+def get_keyboard_compatibility(payload=None):    
+    builder = InlineKeyboardBuilder()
+    for key, value in ZODIAC_SIGNS.items():    
+        builder.button(
+            text=value, callback_data=CompatibilityCallbackFactory(value=key, payload=payload)
+        )
+    
+    builder.adjust(3)
+    return builder.as_markup()
+
+
 @dp.callback_query(SignCallbackFactory.filter())
 async def callbacks_num_change_fab(
         callback: types.CallbackQuery, 
@@ -156,10 +173,37 @@ async def callbacks_num_change_fab(
     send_msg(callback.from_user.id, horoscope.get(period))
         
     await callback.answer()
-    
+        
+@dp.callback_query(CompatibilityCallbackFactory.filter())
+async def callbacks_num_change_fab(
+        callback: types.CallbackQuery, 
+        callback_data: CompatibilityCallbackFactory
+):
+    data = {}
+    user = users.find({'user_id': callback.from_user.id})[0]
+    if callback_data.payload == None:
+        female = callback_data.value
+        data['chat_id'] = callback.from_user.id
+
+        await bot.send_message(text='Мужчина', chat_id=callback.from_user.id, reply_markup=get_keyboard_compatibility(payload=female))
+    else:
+        male = callback_data.value
+        female = callback_data.payload
+        horo = compatibility.find({'title': f'{female}-{male}'})[0]
+        percent = horo['percent']
+        description = f'<b>Ваша совместимость:</b> {percent}\n'
+        for k, v in horo['description'].items():
+            description = description + '\n' + f'<b>{k}</b>' +'\n' + v[0] + '\n'
+        await bot.send_message(text=description, chat_id=callback.from_user.id, parse_mode='html')
+    await callback.answer()
+        
 @dp.message(Command('horoscope'))
-async def start(message: types.message):
+async def horoscope(message: types.message):
     await message.answer('Выбери период', reply_markup=get_keyboard_period())
+    
+@dp.message(Command('compatibility'))
+async def comand_compatibility(message: types.message):
+    await message.answer('Женщина', reply_markup=get_keyboard_compatibility())
     
 @client.task()
 def send_daily_horoscope():
