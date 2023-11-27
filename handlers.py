@@ -70,7 +70,7 @@ async def start(message: types.message):
     users.insert_one(user) 
       
     #send_msg(my_id, 'Нажали старт')
-    await message.answer('Привет {name}!\nВыбери свой знак зодиака!\n '.format(
+    await message.answer('Привет {name}!\nЯ буду присылать ежежневный и еженедельный гороскопы.\nТак же можно узнать вашу любовную совместимость нажав команду\n/compatibility\nВыбери свой знак зодиака!\n '.format(
         name=message.from_user.first_name,
         id = message.from_user.id
     ), reply_markup=get_keyboard_sign())
@@ -185,7 +185,7 @@ async def callbacks_num_change_fab(
         female = callback_data.value
         data['chat_id'] = callback.from_user.id
 
-        await bot.send_message(text='Мужчина', chat_id=callback.from_user.id, reply_markup=get_keyboard_compatibility(payload=female))
+        await bot.send_message(text='Какой знак у мужчины?', chat_id=callback.from_user.id, reply_markup=get_keyboard_compatibility(payload=female))
     else:
         male = callback_data.value
         female = callback_data.payload
@@ -203,7 +203,7 @@ async def horoscope(message: types.message):
     
 @dp.message(Command('compatibility'))
 async def comand_compatibility(message: types.message):
-    await message.answer('Женщина', reply_markup=get_keyboard_compatibility())
+    await message.answer('Какой знак у женщины?', reply_markup=get_keyboard_compatibility())
     
 @client.task()
 def send_daily_horoscope():
