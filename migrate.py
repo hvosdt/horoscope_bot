@@ -78,4 +78,4 @@ def migrate_db():
             i += 1
             
 if __name__ == '__main__': 
-    migrate_db
+    migrate_db()
