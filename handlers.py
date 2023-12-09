@@ -49,7 +49,7 @@ my_id = '182149382'
 client.conf.beat_schedule = {
     'send_daily_horoscope': {
         'task': 'handlers.send_daily_horoscope',
-        'schedule': crontab(hour=8, minute=30)
+        'schedule': crontab(hour=14, minute=30)
     },
     'send_weekly_horoscope': {
         'task': 'handlers.send_weekly_horoscope',
@@ -57,11 +57,11 @@ client.conf.beat_schedule = {
     },
     'parse_main_horoscope': {
         'task': 'handlers.parse_main_horoscope',
-        'schedule': crontab(hour=13, minute=45)
+        'schedule': crontab(hour=13, minute=50)
     },
     'parse_extra_horoscope': {
         'task': 'handlers.parse_extra_horoscope',
-        'schedule': crontab(hour=13, minute=40)
+        'schedule': crontab(hour=13, minute=47)
     }
 }
 
