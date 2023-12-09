@@ -1,5 +1,0 @@
-TELEGRAM_TOKEN = '6910111820:AAE8ocwHpoM4YQ6DxESNcDWGG8c9zJ3A9rE'
-
-#Celery
-CELERY_BROKER_URL = 'redis://localhost:6379/5'
-CELERY_RESULT_BACKEND = 'redis://localhost:6379/5'

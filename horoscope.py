@@ -1,5 +1,16 @@
 from bs4 import BeautifulSoup
 import urllib.request
+from pymongo.mongo_client import MongoClient
+
+client = MongoClient('localhost', 27017)
+
+db = client.horoscope_db
+users = db.users
+compatibility = db.compatibility
+db_main = db.main
+db_hea = db.hea
+db_ero = db.ero
+db_bus = db.bus
 
 ZODIAC_SIGNS = {
     "aries": 1, #Овен
@@ -16,45 +27,30 @@ ZODIAC_SIGNS = {
     "pisces": 12 #Рыбы
 }
 
-def parse_horoscope_page(url):
-    #items = []
-    #url = 'https://horo.mail.ru/prediction/gemini/today/'
-    page = urllib.request.urlopen(url).read()
-    soup = BeautifulSoup(page, 'html.parser')
-    #tbody = soup.find('tbody')
-    '''
-    with open('body.html', 'w') as file:
-        file.write(str(soup))
-    '''
-    data = soup.find('div', attrs={'class': 'article__item article__item_alignment_left article__item_html'})
-    p = data.find_all('p')
-    res = ''
-    for i in p:
-        res = res + i.text + '\n\n'
-    return res
+EXTRA_HORO = {
+    'hea': 'Здоровье',
+    'ero': 'Эротический',
+    'bus': 'Деловой'
+}
 
 class Horoscope():
     def __init__(self, sign) -> None:
         self.sign = sign if sign else 'Aries'
 
-    def get(self, period):
-        url = f'https://horo.mail.ru/prediction/{self.sign}/{period}/'
-        
-        horoscope = parse_horoscope_page(url)
-        return horoscope
+    def get_main(self, period):
+        horoscope = db_main.find({'sign': self.sign})[0]
+        return horoscope[period]
     
-    def get_tooday(self):
-        url = f'https://horo.mail.ru/prediction/{self.sign}/today/'
-        
-        horoscope = parse_horoscope_page(url)
-        return horoscope
-    
-    def get_tomorrow(self):
-        url = f'https://horo.mail.ru/prediction/{self.sign}/tomorrow/'
-        horoscope = parse_horoscope_page(url)
-        return horoscope
-
-    def get_week(self):
-        url = f'https://horo.mail.ru/prediction/{self.sign}/week/'
-        horoscope = parse_horoscope_page(url)
-        return horoscope
+    def get_extra(self, extra, period):
+        result = []
+        for i in extra:
+            if i == 'hea':
+                text = db_hea.find({'sign': self.sign})[0]
+                result. append(EXTRA_HORO[i] + '\n' + text[period])
+            if i == 'ero':
+                text = db_ero.find({'sign': self.sign})[0]
+                result. append(EXTRA_HORO[i] + '\n' + text[period])
+            if i == 'bus':
+                text = db_bus.find({'sign': self.sign})[0]
+                result. append(EXTRA_HORO[i] + '\n' + text[period])
+        return result

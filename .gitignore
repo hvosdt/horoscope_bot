@@ -5,3 +5,5 @@ translator.py
 horoscope_eng.py
 sample.py
 config.py
+celerybeat-schedule.db
+test.py
