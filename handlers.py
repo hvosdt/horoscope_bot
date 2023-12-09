@@ -57,7 +57,7 @@ client.conf.beat_schedule = {
     },
     'parse_main_horoscope': {
         'task': 'handlers.parse_main_horoscope',
-        'schedule': crontab(hour=config.MAIN_HOUR, minute=config.MAIN.MINUTE)
+        'schedule': crontab(hour=config.MAIN_HOUR, minute=config.MAIN_MINUTE)
     },
     'parse_extra_horoscope': {
         'task': 'handlers.parse_extra_horoscope',
