@@ -213,7 +213,7 @@ async def callbacks_num_change_fab(
             if '✔' in value:
                 extra.append(key)
                 users.update_one({'user_id': callback.from_user.id}, {'$set': {'extra': extra}})
-        await bot.send_message(text='Отлично, я буду присылать гороскоп каждое утро. Также вы можете получить гороскоп прямо сейчас нажав на кнопки ниже или выбрав команду /horoscope. : ', chat_id=callback.from_user.id, reply_markup=get_keyboard_period())
+        return await bot.send_message(text='Отлично, я буду присылать гороскоп каждое утро. Также вы можете получить гороскоп прямо сейчас нажав на кнопки ниже или выбрав команду /horoscope. : ', chat_id=callback.from_user.id, reply_markup=get_keyboard_period())
                 
 
     horo_dict[callback_data.key] = '✔ ' + horo_dict[callback_data.key]
